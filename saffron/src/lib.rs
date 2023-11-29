@@ -8,13 +8,15 @@ extern crate alloc;
 mod describe;
 pub mod parse;
 
-use chrono::{prelude::*, Duration};
+use core::{
+    cmp,
+    fmt::Debug,
+    iter::FusedIterator,
+    ops::{Bound, RangeBounds},
+    str::FromStr,
+};
 
-use core::cmp;
-use core::fmt::Debug;
-use core::iter::FusedIterator;
-use core::ops::{Bound, RangeBounds};
-use core::str::FromStr;
+use chrono::{prelude::*, Duration};
 
 use self::parse::{CronExpr, ExprValue, OrsExpr};
 
@@ -1162,6 +1164,7 @@ impl Cron {
                         _ => None,
                     }
                 }
+
                 Err(OutOfBound) => return None,
                 Ok(None) => {
                     search_date = Utc
@@ -1514,10 +1517,10 @@ impl FusedIterator for CronTimesIter {}
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[cfg(not(feature = "std"))]
     use alloc::{string::ToString, vec::Vec};
+
+    use super::*;
 
     const FORMAT: &str = "%F %R";
 
@@ -1816,7 +1819,7 @@ mod tests {
 
     #[test]
     fn parse_check_last_weekday() {
-        let cron = "0 0 * * 7L"; // the last saturday of every month
+        let cron = "0 0 * * 6L"; // the last saturday of every month
 
         check_does_contain(
             cron,

@@ -1,7 +1,7 @@
 [package]
 authors = ["Aaron Loyd <aloyd@cloudflare.com>"]
 description = "A Quartz-like cron parser used as part of Cron Triggers in Cloudflare Workers"
-edition = "2018"
+edition = "2021"
 license-file = "LICENSE"
 name = "saffron"
 repository = "https://github.com/cloudflare/saffron"
@@ -17,11 +17,10 @@ name = "cron"
 
 [[example]]
 name = "future-times"
-required-features = ["chrono/clock"]
 
 [dependencies]
-chrono = {version = "0.4", default-features = false, features = ["alloc"]}
-nom = {version = "5.1", default-features = false}
+chrono = {version = "0.4"}
+nom = {version = "5.1"}
 
 [dev-dependencies]
 criterion = "0.3"
